@@ -4,7 +4,7 @@ services:
       context: ./src
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "3040:3040"
     environment:
-      PORT: 3000
+      PORT: 3040
     restart: unless-stopped
