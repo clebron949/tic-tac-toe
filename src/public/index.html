@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tic-Tac-Toe</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <main>
+    <h1>Tic-Tac-Toe</h1>
+
+    <p data-status role="status" aria-live="polite">Connecting to server...</p>
+
+    <p>
+      <span data-player>You: joining...</span><br>
+      <span data-opponent>Opponent: waiting...</span><br>
+      <span data-turn>Turn: X</span><br>
+      <span data-connection>Connecting</span>
+    </p>
+
+    <div class="board" aria-label="Tic-Tac-Toe board">
+      <button type="button" data-cell="0" aria-label="Square 1, empty"></button>
+      <button type="button" data-cell="1" aria-label="Square 2, empty"></button>
+      <button type="button" data-cell="2" aria-label="Square 3, empty"></button>
+      <button type="button" data-cell="3" aria-label="Square 4, empty"></button>
+      <button type="button" data-cell="4" aria-label="Square 5, empty"></button>
+      <button type="button" data-cell="5" aria-label="Square 6, empty"></button>
+      <button type="button" data-cell="6" aria-label="Square 7, empty"></button>
+      <button type="button" data-cell="7" aria-label="Square 8, empty"></button>
+      <button type="button" data-cell="8" aria-label="Square 9, empty"></button>
+    </div>
+
+    <p>
+      <button type="button" data-reset disabled>New round</button>
+    </p>
+  </main>
+</body>
+
+</html>
