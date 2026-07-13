@@ -3,6 +3,7 @@ const playerBadge = document.querySelector('[data-player]');
 const opponentBadge = document.querySelector('[data-opponent]');
 const turnBadge = document.querySelector('[data-turn]');
 const connectionText = document.querySelector('[data-connection]');
+const playerScore = document.querySelector('[data-player-score]');
 const resetButton = document.querySelector('[data-reset]');
 const cells = [...document.querySelectorAll('[data-cell]')];
 
@@ -16,6 +17,7 @@ let latestState = {
   winner: null,
   winningLine: [],
   playerCount: 0,
+  scores: createScores(),
 };
 
 ws.addEventListener('open', () => {
@@ -55,6 +57,7 @@ ws.addEventListener('message', (event) => {
       winner: data.winner || null,
       winningLine: data.winningLine || [],
       playerCount: data.playerCount || 0,
+      scores: data.scores || latestState.scores,
     };
 
     render(data.type);
@@ -89,11 +92,12 @@ resetButton.addEventListener('click', () => {
 });
 
 function render(messageType) {
-  const { board, currentTurn, winner, winningLine, playerCount } = latestState;
+  const { board, currentTurn, winner, winningLine, playerCount, scores } = latestState;
   const isMyTurn = currentTurn === mySymbol;
 
   turnBadge.textContent = winner ? 'Round over' : `Turn: ${currentTurn}`;
   resetButton.disabled = playerCount < 2;
+  renderScores(scores);
 
   cells.forEach((cell, index) => {
     const mark = board[index] || '';
@@ -121,6 +125,22 @@ function render(messageType) {
   }
 
   statusText.textContent = isMyTurn ? 'Your move. Pick a square.' : `Player ${currentTurn} is thinking...`;
+}
+
+function renderScores(scores) {
+  if (!mySymbol) {
+    return;
+  }
+
+  const myScore = scores[mySymbol];
+  playerScore.textContent = `You: Wins ${myScore.wins}, Losses ${myScore.losses}, Draws ${myScore.draws}`;
+}
+
+function createScores() {
+  return {
+    X: { wins: 0, losses: 0, draws: 0 },
+    O: { wins: 0, losses: 0, draws: 0 },
+  };
 }
 
 function canPlay(index) {

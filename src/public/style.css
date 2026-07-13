@@ -11,6 +11,19 @@ main {
   max-width: 34rem;
 }
 
+.scoreboard {
+  margin: 1rem 0;
+}
+
+.scoreboard h2 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.scoreboard p {
+  margin: 0.25rem 0;
+}
+
 .board {
   display: grid;
   grid-template-columns: repeat(3, 6rem);

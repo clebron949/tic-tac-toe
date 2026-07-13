@@ -17,6 +17,7 @@ let board = Array(9).fill(null);
 let currentTurn = 'X';
 let winner = null;
 let winningLine = [];
+let scores = createScores();
 
 const winningCombos = [
   [0, 1, 2],
@@ -67,6 +68,7 @@ wss.on('connection', (ws) => {
   ws.on('close', () => {
     players = players.filter((player) => player.ws !== ws);
     resetGame();
+    scores = createScores();
     broadcast({ type: 'opponent_left', message: 'Opponent disconnected. Waiting for another player.' });
     broadcastGameState('waiting');
   });
@@ -99,6 +101,7 @@ function handleMove(ws, symbol, index) {
   if (result) {
     winner = result.winner;
     winningLine = result.winningLine;
+    updateScores(winner);
     broadcastGameState('over');
     return;
   }
@@ -130,6 +133,7 @@ function broadcastGameState(type) {
     winner,
     winningLine,
     playerCount: players.length,
+    scores,
   });
 }
 
@@ -148,4 +152,23 @@ function resetGame() {
   currentTurn = 'X';
   winner = null;
   winningLine = [];
+}
+
+function createScores() {
+  return {
+    X: { wins: 0, losses: 0, draws: 0 },
+    O: { wins: 0, losses: 0, draws: 0 },
+  };
+}
+
+function updateScores(result) {
+  if (result === 'Draw') {
+    scores.X.draws += 1;
+    scores.O.draws += 1;
+    return;
+  }
+
+  const loser = result === 'X' ? 'O' : 'X';
+  scores[result].wins += 1;
+  scores[loser].losses += 1;
 }
